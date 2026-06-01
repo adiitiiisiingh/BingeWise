@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BingeWise</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+            background-color:#0f0f0f;
+            font-family:Arial, Helvetica, sans-serif;
+            color:white;
+        }
+
+        /* NAVBAR */
+
+        .navbar{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:20px 50px;
+            background:black;
+            position:sticky;
+            top:0;
+            z-index:100;
+        }
+
+        .logo{
+            color:red;
+            font-size:32px;
+            font-weight:bold;
+        }
+
+        .nav-links a{
+            color:white;
+            text-decoration:none;
+            margin-left:20px;
+            font-size:18px;
+        }
+
+        .nav-links a:hover{
+            color:red;
+        }
+
+        /* HERO SECTION */
+
+        .hero{
+            height:70vh;
+            background:linear-gradient(
+                to bottom,
+                rgba(0,0,0,0.4),
+                #0f0f0f
+            ),
+            url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1974&auto=format&fit=crop');
+
+            background-size:cover;
+            background-position:center;
+
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            text-align:center;
+
+            padding:20px;
+        }
+
+        .hero h1{
+            font-size:60px;
+            margin-bottom:20px;
+        }
+
+        .hero p{
+            font-size:22px;
+            color:#ddd;
+            margin-bottom:30px;
+        }
+
+        /* SEARCH */
+
+        form{
+            display:flex;
+            gap:10px;
+            flex-wrap:wrap;
+            justify-content:center;
+        }
+
+        input{
+            width:350px;
+            padding:15px;
+            border:none;
+            border-radius:5px;
+            font-size:16px;
+            outline:none;
+        }
+
+        button{
+            padding:12px 20px;
+            border:none;
+            border-radius:5px;
+            background:red;
+            color:white;
+            cursor:pointer;
+            font-size:15px;
+            transition:0.3s;
+        }
+
+        button:hover{
+            background:darkred;
+            transform:scale(1.05);
+        }
+
+        /* SECTIONS */
+
+        .section{
+            padding:50px;
+        }
+
+        .section h1{
+            margin-bottom:30px;
+            font-size:38px;
+        }
+
+        /* MOVIE GRID */
+
+        .movies-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+            gap:30px;
+        }
+
+        /* MOVIE CARD */
+
+        .movie-card{
+            background:#1c1c1c;
+            border-radius:12px;
+            overflow:hidden;
+            transition:0.3s;
+            box-shadow:0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .movie-card:hover{
+            transform:translateY(-10px);
+        }
+
+        .movie-card img{
+            width:100%;
+            height:380px;
+            object-fit:cover;
+        }
+
+        .movie-info{
+            padding:20px;
+        }
+
+        .movie-info h2{
+            font-size:22px;
+            margin-bottom:10px;
+        }
+
+        .movie-info p{
+            color:#ccc;
+            margin-bottom:8px;
+        }
+
+        .movie-info a{
+            color:white;
+            text-decoration:none;
+        }
+
+        .movie-info a:hover{
+            color:red;
+        }
+
+        .action-buttons{
+            margin-top:15px;
+        }
+
+        .remove-btn button{
+            background:#444;
+        }
+
+        .remove-btn button:hover{
+            background:#666;
+        }
+
+        /* FOOTER */
+
+        .footer{
+            background:black;
+            text-align:center;
+            padding:20px;
+            margin-top:50px;
+            color:#aaa;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <div class="navbar">
+
+        <div class="logo">
+            BingeWise
+        </div>
+
+        <div class="nav-links">
+            <a href="/">Home</a>
+        </div>
+
+    </div>
+
+    <!-- HERO -->
+
+    <div class="hero">
+
+        <h1>Unlimited Movies & Recommendations</h1>
+
+        <p>Discover your next favorite movie instantly.</p>
+
+        <form method="POST">
+
+            <input
+                type="text"
+                name="movie"
+                placeholder="Search movies..."
+                required
+            >
+
+            <button type="submit">
+                Search
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- SEARCH RESULTS -->
+
+    {% if movies %}
+
+    <div class="section">
+
+        <h1>Search Results</h1>
+
+        <div class="movies-grid">
+
+            {% for movie in movies %}
+
+            <div class="movie-card">
+
+                <img src="{{ movie.Poster }}" alt="Poster">
+
+                <div class="movie-info">
+
+                    <h2>
+                        <a href="/movie/{{ movie.Title }}">
+                            {{ movie.Title }}
+                        </a>
+                    </h2>
+
+                    <p>Year: {{ movie.Year }}</p>
+
+                    <div class="action-buttons">
+
+                        <a href="/add_to_watchlist/{{ movie.Title }}">
+                            <button>
+                                + Add to Watchlist
+                            </button>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+    <!-- RECOMMENDATIONS -->
+
+    {% if recommendations %}
+
+    <div class="section">
+
+        <h1>Recommended Movies</h1>
+
+        <div class="movies-grid">
+
+            {% for movie in recommendations %}
+
+            <div class="movie-card">
+
+                <img src="{{ movie.Poster }}" alt="Poster">
+
+                <div class="movie-info">
+
+                    <h2>
+                        <a href="/movie/{{ movie.Title }}">
+                            {{ movie.Title }}
+                        </a>
+                    </h2>
+
+                    <p>Year: {{ movie.Year }}</p>
+
+                    <p>IMDB Rating: {{ movie.imdbRating }}</p>
+
+                    <p>Genre: {{ movie.Genre }}</p>
+
+                    <div class="action-buttons">
+
+                        <a href="/add_to_watchlist/{{ movie.Title }}">
+                            <button>
+                                + Add to Watchlist
+                            </button>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+    <!-- WATCHLIST -->
+
+    {% if watchlist %}
+
+    <div class="section">
+
+        <h1>Your Watchlist</h1>
+
+        <div class="movies-grid">
+
+            {% for movie in watchlist %}
+
+            <div class="movie-card">
+
+                <img src="{{ movie['poster'] }}" alt="Poster">
+
+                <div class="movie-info">
+
+                    <h2>{{ movie['title'] }}</h2>
+
+                    <p>Year: {{ movie['year'] }}</p>
+
+                    <p>IMDB Rating: {{ movie['rating'] }}</p>
+
+                    <div class="action-buttons">
+
+                        <a href="/remove_from_watchlist/{{ movie['title'] }}" class="remove-btn">
+                            <button>
+                                Remove
+                            </button>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+    <!-- FOOTER -->
+
+    <div class="footer">
+
+        © 2025 BingeWise | Movie Recommendation Platform
+
+    </div>
+
+</body>
+</html>

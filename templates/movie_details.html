@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ movie.Title }}</title>
+
+    <style>
+
+        body{
+            margin:0;
+            padding:0;
+            background-color:#111;
+            color:white;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        .container{
+            display:flex;
+            gap:50px;
+            padding:50px;
+            flex-wrap:wrap;
+        }
+
+        .poster img{
+            width:350px;
+            border-radius:15px;
+            box-shadow:0 5px 20px rgba(0,0,0,0.7);
+        }
+
+        .details{
+            flex:1;
+            min-width:300px;
+        }
+
+        .details h1{
+            font-size:50px;
+            margin-bottom:20px;
+        }
+
+        .details p{
+            font-size:20px;
+            margin-bottom:15px;
+            color:#ddd;
+        }
+
+        .back-btn{
+            display:inline-block;
+            margin:30px 50px;
+            padding:12px 25px;
+            background:red;
+            color:white;
+            text-decoration:none;
+            border-radius:5px;
+            font-size:18px;
+        }
+
+        .back-btn:hover{
+            background:darkred;
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <a href="/" class="back-btn">
+        ← Back
+    </a>
+
+    <div class="container">
+
+        <div class="poster">
+
+            <img src="{{ movie.Poster }}" alt="Poster">
+
+        </div>
+
+        <div class="details">
+
+            <h1>{{ movie.Title }}</h1>
+
+            <p><strong>Year:</strong> {{ movie.Year }}</p>
+
+            <p><strong>Genre:</strong> {{ movie.Genre }}</p>
+
+            <p><strong>IMDB Rating:</strong> {{ movie.imdbRating }}</p>
+
+            <p><strong>Runtime:</strong> {{ movie.Runtime }}</p>
+
+            <p><strong>Director:</strong> {{ movie.Director }}</p>
+
+            <p><strong>Actors:</strong> {{ movie.Actors }}</p>
+
+            <p><strong>Language:</strong> {{ movie.Language }}</p>
+
+            <p><strong>Plot:</strong> {{ movie.Plot }}</p>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
