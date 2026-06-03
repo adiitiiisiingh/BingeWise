@@ -4,8 +4,28 @@ import pandas as pd
 import sqlite3
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+import sqlite3
+
+def create_table():
+    conn = sqlite3.connect("bingewise.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS watchlist (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT UNIQUE,
+        poster TEXT,
+        year TEXT,
+        rating TEXT
+    )
+    """)
+
+    conn.commit()
+    conn.close()
 
 app = Flask(__name__)
+
+create_table()
 
 API_KEY = "1ca9c1a8"
 
